@@ -14,16 +14,19 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity {
+import java.text.DateFormat;
+import java.util.Date;
 
+public class MainActivity extends AppCompatActivity {
     ListView listView;
     InterestDao interestDao;
+    TextView createdAt;
     Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        createdAt = findViewById(R.id.createdAt);
         listView = findViewById(R.id.studentListView);
         AppDatabase db = AppDatabase.getInstance(this);
         interestDao = db.interestDao();
@@ -61,13 +64,14 @@ public class MainActivity extends AppCompatActivity {
                         SimpleCursorAdapter adapter = new SimpleCursorAdapter(MainActivity.this,
                                 R.layout.list_item_template,
                                 cursor,
-                                new String[] { "interest_name", "_id", "interest_desc", "hours_per_week", "mins_per_week", "hours_completed", "mins_completed"},
-                                new int[] { R.id.activityDisabled, R.id.interestID, R.id.desc, R.id.hoursPerWeek, R.id.minsPerWeek, R.id.txtHoursCompleted, R.id.txtMinsCompleted});
+                                new String[] { "interest_name", "_id", "interest_desc", "created_at"},
+                                new int[] { R.id.activityDisabled, R.id.interestID, R.id.desc, R.id.createdAt});
                         listView.setAdapter(adapter);
                     }
                 });
             }
         }).start();
+
     }
 
     public void addNewStudent() {

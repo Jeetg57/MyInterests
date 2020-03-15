@@ -52,7 +52,7 @@ public class AddAchievement extends AppCompatActivity {
         thisInterest.interestDescription = textDesc.getText().toString().trim();
         thisInterest.hoursCompleted = Integer.parseInt(txtHours.getText().toString());
         thisInterest.minsCompleted = Integer.parseInt(txtMins.getText().toString());
-        if(!(thisInterest.interestName.equals("") && thisInterest.interestDescription.equals(""))) {
+        if(!(thisInterest.interestName.equals("") || thisInterest.interestDescription.equals(""))) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {

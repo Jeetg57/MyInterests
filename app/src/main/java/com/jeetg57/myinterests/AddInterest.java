@@ -34,7 +34,7 @@ public class AddInterest extends AppCompatActivity {
         interest.hoursCompleted = 0;
         interest.minsCompleted = 0;
         interest.createdAt = System.currentTimeMillis();
-        if(!(interest.interestName.equals("") && interest.interestDescription.equals(""))) {
+        if(!(interest.interestName.equals("") || interest.interestDescription.equals(""))) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {

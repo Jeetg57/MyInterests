@@ -2,14 +2,16 @@ package com.jeetg57.myinterests;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -20,11 +22,15 @@ public class ViewInterest extends AppCompatActivity {
     TextView hoursPerWeek;
     TextView timeCompleted;
     TextView createdAt;
+    TextView percentageProgress;
+    TextView rept;
     AlertDialog.Builder builder;
     Interest thisInterest;
     InterestDao interestDao;
     final Handler handler = new Handler();
     int ids;
+    float tots, comps;
+    CircularProgressBar circularProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +39,8 @@ public class ViewInterest extends AppCompatActivity {
         interestDao = db.interestDao();
         Intent i = getIntent();
         final String interest =  i.getStringExtra("ID");
-
-
+        rept = findViewById(R.id.reptOne);
+        percentageProgress = findViewById(R.id.percentageProgress);
         desc = findViewById(R.id.desc);
         hoursPerWeek = findViewById(R.id.timePerWeek);
         timeCompleted = findViewById(R.id.timeCompleted);
@@ -42,6 +48,7 @@ public class ViewInterest extends AppCompatActivity {
         assert interest != null;
         ids = Integer.parseInt(interest);
         loadData();
+        loadReport();
     }
 
     private void loadData(){
@@ -67,6 +74,73 @@ public class ViewInterest extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    private void loadReport(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                thisInterest = interestDao.findById(ids);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tots = ((thisInterest.hoursPerWeek * 60) + thisInterest.minsPerWeek);
+                        comps = ((thisInterest.hoursCompleted * 60) + thisInterest.minsCompleted);
+                        double percentageProgress2 = (comps/tots * 100);
+                        String percent = Double.toString(percentageProgress2);
+                        percentageProgress.setText(percent + "%");
+                        if(percentageProgress2 == 0){
+                            rept.setText("You have not started working on " + thisInterest.interestName);
+                        }
+                        else if(percentageProgress2 == 100){
+                            rept.setText("You have completed this interest");
+                        }
+                        else if(percentageProgress2 >= 75){
+                            rept.setText("Woohoo! you are almost done");
+                        }
+                        else if(percentageProgress2 >= 50){
+                            rept.setText("Congratulations you have passed halfway");
+                        }
+                        else{
+                            rept.setText("Keep working on this");
+                        }
+
+                        circularProgressBar = findViewById(R.id.circularProgressBar);
+                        // Set Progress
+                        //        circularProgressBar.setProgress(100f);
+                        // or with animation
+                        circularProgressBar.setProgressWithAnimation(comps, 1000L); // =1s
+                        // Set Progress Max
+                        circularProgressBar.setProgressMax(tots);
+                        // Set ProgressBar Color
+                        circularProgressBar.setProgressBarColor(Color.BLACK);
+                        // or with gradient
+//                          circularProgressBar.setProgressBarColorStart(Color.GRAY);
+//                        circularProgressBar.setProgressBarColorEnd(Color.RED);
+//                        circularProgressBar.setProgressBarColorDirection(CircularProgressBar.GradientDirection.TOP_TO_BOTTOM);
+
+                        // Set background ProgressBar Color
+                        circularProgressBar.setBackgroundProgressBarColor(Color.GRAY);
+                        // or with gradient
+//                        circularProgressBar.setBackgroundProgressBarColorStart(Color.WHITE);
+//                        circularProgressBar.setBackgroundProgressBarColorEnd(Color.RED);
+//                        circularProgressBar.setBackgroundProgressBarColorDirection(CircularProgressBar.GradientDirection.TOP_TO_BOTTOM);
+
+                        // Set Width
+                        circularProgressBar.setProgressBarWidth(7f); // in DP
+                        circularProgressBar.setBackgroundProgressBarWidth(3f); // in DP
+
+                        // Other
+                        circularProgressBar.setRoundBorder(true);
+                        circularProgressBar.setStartAngle(180f);
+                        circularProgressBar.setProgressDirection(CircularProgressBar.ProgressDirection.TO_RIGHT);
+
+                    }
+                });
+            }
+        }).start();
+
+
     }
     public void deleteInterest(View v){
         builder = new AlertDialog.Builder(this);
@@ -110,5 +184,6 @@ public class ViewInterest extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadData();
+        loadReport();
     }
 }

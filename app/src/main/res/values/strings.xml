@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">My Interests</string>
+    <string name="activity">Activity</string>
+    <string name="description">Description</string>
+    <string name="add_an_achievement">Add An Achievement</string>
+    <string name="time_worked_on">Time worked on today</string>
+    <string name="update_interest">Update Interest</string>
+    <string name="reset">Reset</string>
+    <string name="hours">Hours</string>
+    <string name="minutes">Minutes</string>
 </resources>

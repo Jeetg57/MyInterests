@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/txtActivity"
+                android:id="@+id/activityDisabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -41,7 +41,7 @@
                 android:layout_marginTop="8dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtActivity" />
+                app:layout_constraintTop_toBottomOf="@+id/activityDisabled" />
 
             <TextView
                 android:id="@+id/timePerWeek"
@@ -97,6 +97,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/btn_rounded"
+                android:onClick="addAchievement"
                 android:padding="20dp"
                 android:text="Add Achievement"
                 android:textColor="@color/textColorLight"

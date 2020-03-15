@@ -11,11 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadStudentData() {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -66,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                                 R.layout.list_item_template,
                                 cursor,
                                 new String[] { "interest_name", "_id", "interest_desc", "hours_per_week", "mins_per_week", "hours_completed", "mins_completed"},
-                                new int[] { R.id.txtActivity, R.id.interestID, R.id.desc, R.id.hoursPerWeek, R.id.minsPerWeek, R.id.txtHoursCompleted, R.id.txtMinsCompleted});
+                                new int[] { R.id.activityDisabled, R.id.interestID, R.id.desc, R.id.hoursPerWeek, R.id.minsPerWeek, R.id.txtHoursCompleted, R.id.txtMinsCompleted});
                         listView.setAdapter(adapter);
                     }
                 });

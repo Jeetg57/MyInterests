@@ -10,11 +10,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class ViewInterest extends AppCompatActivity {
@@ -23,11 +20,11 @@ public class ViewInterest extends AppCompatActivity {
     TextView hoursPerWeek;
     TextView timeCompleted;
     TextView createdAt;
-    Button closeButton;
     AlertDialog.Builder builder;
     Interest thisInterest;
     InterestDao interestDao;
-    Handler handler = new Handler();
+    final Handler handler = new Handler();
+    int ids;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,27 +40,33 @@ public class ViewInterest extends AppCompatActivity {
         timeCompleted = findViewById(R.id.timeCompleted);
         createdAt = findViewById(R.id.createdAt);
         assert interest != null;
-        final int ids = Integer.parseInt(interest);
+        ids = Integer.parseInt(interest);
+        loadData();
+    }
+
+    private void loadData(){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 thisInterest = interestDao.findById(ids);
-                activity = findViewById(R.id.txtActivity);
-                activity.setText(thisInterest.interestName);
-                desc.setText(thisInterest.interestDescription);
-                String txtHours = thisInterest.hoursPerWeek + " Hours " + thisInterest.minsPerWeek + " Mins";
-                String completed = thisInterest.hoursCompleted + " Hours " + thisInterest.minsCompleted + " Mins";
-                hoursPerWeek.setText(txtHours);
-                timeCompleted.setText(completed);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity = findViewById(R.id.activityDisabled);
+                        activity.setText(thisInterest.interestName);
+                        desc.setText(thisInterest.interestDescription);
+                        String txtHours = thisInterest.hoursPerWeek + " Hours " + thisInterest.minsPerWeek + " Mins";
+                        String completed = thisInterest.hoursCompleted + " Hours " + thisInterest.minsCompleted + " Mins";
+                        hoursPerWeek.setText(txtHours);
+                        timeCompleted.setText(completed);
 
-                Date currentDate = new Date(thisInterest.createdAt);
-                DateFormat df = DateFormat.getTimeInstance(DateFormat.LONG);
-                createdAt.setText(df.format(currentDate));
-
-
+                        Date currentDate = new Date(thisInterest.createdAt);
+                        DateFormat df = DateFormat.getTimeInstance(DateFormat.LONG);
+                        createdAt.setText(df.format(currentDate));
+                    }
+                });
             }
         }).start();
-
     }
     public void deleteInterest(View v){
         builder = new AlertDialog.Builder(this);
@@ -96,4 +99,16 @@ public class ViewInterest extends AppCompatActivity {
                 alert.setTitle("Alert");
                 alert.show();
             }
+    public void addAchievement(View v){
+        Intent intent = new Intent(this, AddAchievement.class);
+
+        intent.putExtra("INTEREST", thisInterest.interestId);
+        startActivity(intent);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+    }
+}

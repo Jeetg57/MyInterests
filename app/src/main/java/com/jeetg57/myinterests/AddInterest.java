@@ -18,8 +18,8 @@ public class AddInterest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_interest);
-        txtActivity = findViewById(R.id.txtActivity);
-        txtDesc = findViewById(R.id.txtDesc);
+        txtActivity = findViewById(R.id.activityDisabled);
+        txtDesc = findViewById(R.id.descDisabled);
         txtHours = findViewById(R.id.txtHours);
         txtMins = findViewById(R.id.txtMins);
         AppDatabase db = AppDatabase.getInstance(this);

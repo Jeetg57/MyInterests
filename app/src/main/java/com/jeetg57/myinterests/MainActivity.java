@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.studentListView);
         AppDatabase db = AppDatabase.getInstance(this);
         interestDao = db.interestDao();
-        loadStudentData();
+
         FloatingActionButton fab = findViewById(R.id.floating_action_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
 //                 ListView list = listView.getChildAt(position).findViewById(R.id.txtActivity);
                 TextView textView = view.findViewById(R.id.interestID);
                 String text = textView.getText().toString();
-                Toast.makeText(getApplicationContext(), "Selected item: " + text , Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, ViewInterest.class);
                 intent.putExtra("ID", text);
                 startActivity(intent);
             }
         });
+        loadStudentData();
     }
 
     private void loadStudentData() {
@@ -79,5 +79,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadStudentData();
+    }
 }

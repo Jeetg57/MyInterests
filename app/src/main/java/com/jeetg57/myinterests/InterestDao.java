@@ -27,6 +27,8 @@ public interface InterestDao {
     @Insert
     void addInterest(Interest interest);
 
+    @Delete
+    void deleteInterest(Interest interest);
 
     @Update
     void updateInterest(Interest interest);

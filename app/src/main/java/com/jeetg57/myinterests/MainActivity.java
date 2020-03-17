@@ -16,13 +16,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private InterestDao interestDao;
-    private TextView createdAt;
     private Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createdAt = findViewById(R.id.createdAt);
         listView = findViewById(R.id.studentListView);
         AppDatabase db = AppDatabase.getInstance(this);
         interestDao = db.interestDao();

@@ -9,15 +9,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class AddInterest extends AppCompatActivity {
-    EditText txtActivity;
-    EditText txtDesc;
-    EditText txtHours;
-    EditText txtMins;
-    InterestDao interestDao;
+    private EditText txtActivity, txtDesc, txtHours, txtMins;
+    private InterestDao interestDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_interest);
+        getSupportActionBar().setSubtitle("Add an interest");
         txtActivity = findViewById(R.id.activityDisabled);
         txtDesc = findViewById(R.id.descDisabled);
         txtHours = findViewById(R.id.txtHours);
@@ -47,6 +45,14 @@ public class AddInterest extends AppCompatActivity {
         else{
             Toast.makeText(getApplicationContext(),"Values should not be null!",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void reset(View v){
+        txtDesc.setText("");
+        txtActivity.setText("");
+        txtHours.setText("");
+        txtMins.setText("");
+        txtActivity.requestFocus();
 
     }
 }

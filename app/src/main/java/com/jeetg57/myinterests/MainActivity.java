@@ -13,15 +13,11 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.text.DateFormat;
-import java.util.Date;
-
 public class MainActivity extends AppCompatActivity {
-    ListView listView;
-    InterestDao interestDao;
-    TextView createdAt;
-    Handler handler = new Handler();
+    private ListView listView;
+    private InterestDao interestDao;
+    private TextView createdAt;
+    private Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

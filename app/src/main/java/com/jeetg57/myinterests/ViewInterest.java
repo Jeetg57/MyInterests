@@ -1,8 +1,5 @@
 package com.jeetg57.myinterests;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,7 +8,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
+
 import java.text.MessageFormat;
 
 public class ViewInterest extends AppCompatActivity {
@@ -71,7 +73,7 @@ public class ViewInterest extends AppCompatActivity {
                         int daysBetween = (int) (difference / (1000 * 60 * 60 * 24));
                         int days2Go = 7 - daysBetween;
                         if (daysBetween == 0) {
-                            createdAt.setText("Today");
+                            createdAt.setText(R.string.today);
                         } else {
                             String days = daysBetween + " days ago";
                             createdAt.setText(days);

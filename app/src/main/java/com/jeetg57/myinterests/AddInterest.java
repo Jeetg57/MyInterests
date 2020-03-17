@@ -1,12 +1,14 @@
 package com.jeetg57.myinterests;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Objects;
 
 public class AddInterest extends AppCompatActivity {
     private EditText txtActivity, txtDesc, txtHours, txtMins;
@@ -15,7 +17,7 @@ public class AddInterest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_interest);
-        getSupportActionBar().setSubtitle("Add an interest");
+        Objects.requireNonNull(getSupportActionBar()).setSubtitle("Add an interest");
         txtActivity = findViewById(R.id.activityDisabled);
         txtDesc = findViewById(R.id.descDisabled);
         txtHours = findViewById(R.id.txtHours);

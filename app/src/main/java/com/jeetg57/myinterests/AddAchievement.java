@@ -1,15 +1,14 @@
 package com.jeetg57.myinterests;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.util.Date;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Objects;
 
 public class AddAchievement extends AppCompatActivity {
     private EditText txtActivity, textDesc, txtHours, txtMins;
@@ -21,7 +20,7 @@ public class AddAchievement extends AppCompatActivity {
         setContentView(R.layout.activity_add_achievement);
         AppDatabase db = AppDatabase.getInstance(this);
         interestDao = db.interestDao();
-        getSupportActionBar().setSubtitle("Add an achievement");
+        Objects.requireNonNull(getSupportActionBar()).setSubtitle("Add an achievement");
 
         txtActivity = findViewById(R.id.activityDisabled);
         textDesc = findViewById(R.id.descDisabled);

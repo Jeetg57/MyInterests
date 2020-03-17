@@ -19,4 +19,5 @@
     <string name="almost_done">Woohoo! you are almost done</string>
     <string name="halfway">Congratulations you have passed halfway</string>
     <string name="keep_working">Keep working on this</string>
+    <string name="today">Today</string>
 </resources>

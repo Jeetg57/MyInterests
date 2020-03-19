@@ -4,39 +4,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
-import java.util.Random;
 
-public class AddAchievement extends AppCompatActivity {
-    private EditText txtHours, txtMins;
+public class UpdateInterest extends AppCompatActivity {
+    private EditText txtActivity, textDesc, txtHours, txtMins;
     private Interest thisInterest;
     private InterestDao interestDao;
-    TextView quote;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_achievement);
+        setContentView(R.layout.activity_update_interest);
         AppDatabase db = AppDatabase.getInstance(this);
         interestDao = db.interestDao();
-        Objects.requireNonNull(getSupportActionBar()).setSubtitle("Add an achievement");
+        Objects.requireNonNull(getSupportActionBar()).setSubtitle("Update Interest");
 
+        txtActivity = findViewById(R.id.activityDisabled);
+        textDesc = findViewById(R.id.descDisabled);
         txtHours = findViewById(R.id.txtHours);
         txtMins = findViewById(R.id.txtMins);
-        quote = findViewById(R.id.randomQuote);
-
-        String[] quotes = {"Keep away from those who try to belittle your ambitions. Small people always do that, but the really great make you believe that you too can become great.",
-                "Things aren’t always easy, but you just have to keep going and don’t let the small stuff bog you down.",
-                "Let everything happen to you. Beauty and terror. Just keep going. No feeling is final.",
-                "When in doubt, throw doubt out and have a little faith….",
-                "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time."
-        };
-        Random rand = new Random();
-        int qt = rand.nextInt(quotes.length);
-        quote.setText(quotes[qt]);
 
         Intent intent = getIntent();
         final int id = intent.getIntExtra("INTEREST", 0);
@@ -45,14 +36,17 @@ public class AddAchievement extends AppCompatActivity {
             @Override
             public void run() {
                 thisInterest = interestDao.findById(id);
+                txtActivity.setText(thisInterest.interestName);
+                textDesc.setText(thisInterest.interestDescription);
             }
         }).start();
     }
-
-
     public void updateInterest(View v) {
-        thisInterest.hoursCompleted += Integer.parseInt(txtHours.getText().toString());
-        thisInterest.minsCompleted += Integer.parseInt(txtMins.getText().toString());
+        thisInterest.interestName = txtActivity.getText().toString().trim();
+        thisInterest.interestDescription = textDesc.getText().toString().trim();
+        thisInterest.hoursPerWeek = Integer.parseInt(String.valueOf(txtHours.getText()));
+        thisInterest.minsPerWeek = Integer.parseInt(String.valueOf(txtMins.getText()));
+        if(!(thisInterest.interestName.equals("") || thisInterest.interestDescription.equals(""))) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -61,6 +55,11 @@ public class AddAchievement extends AppCompatActivity {
             }).start();
             finish();
         }
+        else{
+            Toast.makeText(getApplicationContext(), R.string.no_null_values,Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     public void reset(View v){
         txtHours.setText("");

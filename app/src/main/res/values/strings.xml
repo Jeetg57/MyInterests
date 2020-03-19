@@ -13,7 +13,7 @@
     <string name="delete_confirmation">Are You Sure you want to delete?</string>
     <string name="Delete">DELETE</string>
     <string name="no_null_values">Values should not be null!</string>
-    <string name="not_started">\"You have not started working on \"</string>
+    <string name="not_started">You have not started working on </string>
     <string name="not_completed">You have completed this interest</string>
     <string name="surpassed">You have surpassed your goal. Aim higher</string>
     <string name="almost_done">Woohoo! you are almost done</string>

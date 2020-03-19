@@ -158,11 +158,10 @@ public class ViewInterest extends AppCompatActivity {
 
     public void deleteInterest(View v) {
         builder = new AlertDialog.Builder(this);
-        //Uncomment the below code to Set the message and title from the strings.xml file
-        builder.setMessage(R.string.delete_confirmation).setTitle(R.string.Delete);
 
         //Setting message manually and performing action on button click
-        builder.setMessage(R.string.delete_msg)
+
+        builder.setMessage("You will not be able to revert this!")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -184,12 +183,20 @@ public class ViewInterest extends AppCompatActivity {
         //Creating dialog box
         AlertDialog alert = builder.create();
         //Setting the title manually
-        alert.setTitle("Alert");
+        alert.setIcon(R.drawable.error);
+        alert.setTitle("Are you sure you want to delete?");
         alert.show();
     }
 
     public void addAchievement(View v) {
         Intent intent = new Intent(this, AddAchievement.class);
+
+        intent.putExtra("INTEREST", thisInterest.interestId);
+        startActivity(intent);
+    }
+
+    public void updateInterests(View v) {
+        Intent intent = new Intent(this, UpdateInterest.class);
 
         intent.putExtra("INTEREST", thisInterest.interestId);
         startActivity(intent);

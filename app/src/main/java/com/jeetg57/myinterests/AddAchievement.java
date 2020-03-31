@@ -2,11 +2,16 @@ package com.jeetg57.myinterests;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.Objects;
 import java.util.Random;
@@ -20,6 +25,9 @@ public class AddAchievement extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_achievement);
+        Toolbar toolbar = findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AppDatabase db = AppDatabase.getInstance(this);
         interestDao = db.interestDao();
         Objects.requireNonNull(getSupportActionBar()).setSubtitle("Add an achievement");
@@ -50,21 +58,47 @@ public class AddAchievement extends AppCompatActivity {
     }
 
 
-    public void updateInterest(View v) {
-        thisInterest.hoursCompleted += Integer.parseInt(txtHours.getText().toString());
-        thisInterest.minsCompleted += Integer.parseInt(txtMins.getText().toString());
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    interestDao.updateInterest(thisInterest);
-                }
-            }).start();
-            finish();
+    public void updateInterest(View v){
+        if(!(txtHours.getText().toString().isEmpty() || txtMins.getText().toString().isEmpty())) {
+            if(Integer.parseInt(txtMins.getText().toString()) > 59 || Integer.parseInt(txtHours.getText().toString()) >= 24){
+                Toast.makeText(this, "Wrong values for minutes or hours", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                thisInterest.hoursCompleted += Integer.parseInt(txtHours.getText().toString());
+                thisInterest.minsCompleted += Integer.parseInt(txtMins.getText().toString());
+                thisInterest.totalTime += (thisInterest.hoursCompleted * 60 + thisInterest.minsCompleted);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        interestDao.updateInterest(thisInterest);
+                    }
+                }).start();
+                finish();
+            }
         }
+        else{
+            Toast.makeText(this, R.string.no_null_values, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void reset(View v){
         txtHours.setText("");
         txtMins.setText("");
         txtHours.requestFocus();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
+        else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

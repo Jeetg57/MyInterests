@@ -4,15 +4,20 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private InterestDao interestDao;
@@ -21,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
         listView = findViewById(R.id.studentListView);
         AppDatabase db = AppDatabase.getInstance(this);
         interestDao = db.interestDao();
@@ -48,25 +55,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadStudentData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final Cursor cursor = interestDao.getAllInterestsCursor();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        SimpleCursorAdapter adapter = new SimpleCursorAdapter(MainActivity.this,
-                                R.layout.list_item_template,
-                                cursor,
-                                new String[] { "interest_name", "_id", "interest_desc", "created_at"},
-                                new int[] { R.id.activityDisabled, R.id.interestID, R.id.desc, R.id.createdAt});
-                        listView.setAdapter(adapter);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                        final Cursor cursor = interestDao.getAllInterestsCursor();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                SimpleCursorAdapter adapter = new SimpleCursorAdapter(MainActivity.this,
+                                        R.layout.list_item_template,
+                                        cursor,
+                                        new String[]{"interest_name", "_id", "interest_desc", "created_at"},
+                                        new int[]{R.id.activityDisabled, R.id.interestID, R.id.desc, R.id.createdAt});
+                                listView.setAdapter(adapter);
+                            }
+                        });
                     }
-                });
-            }
-        }).start();
-
-    }
+            }).start();
+        }
 
     public void addNewStudent() {
         Intent intent = new Intent(this, AddInterest.class);
@@ -77,5 +83,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadStudentData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.settings){
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

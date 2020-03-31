@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "interest2")
+@Entity(tableName = "interest3")
 public class Interest {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
@@ -23,7 +23,6 @@ public class Interest {
     public int minsCompleted;
     @ColumnInfo(name = "created_at")
     public long createdAt;
-
-
-
+    @ColumnInfo(name = "total_time_completed_in_mins")
+    public int totalTime;
 }

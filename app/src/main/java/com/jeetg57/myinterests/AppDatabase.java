@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Interest.class}, exportSchema = false, version = 1)
+@Database(entities = {Interest.class}, exportSchema = false, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME = "interest_db2";
     private static AppDatabase instance;

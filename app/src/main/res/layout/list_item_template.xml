@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
@@ -14,16 +13,20 @@
 
         <TextView
             android:id="@+id/activityDisabled"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="@string/textview"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -43,16 +46,26 @@
             android:id="@+id/desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="24dp"
             android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
             android:gravity="center_vertical"
             android:text="@string/textview"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAlignment="viewStart"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/activityDisabled"
             app:layout_constraintTop_toBottomOf="@+id/activityDisabled" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="64dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_scheme" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

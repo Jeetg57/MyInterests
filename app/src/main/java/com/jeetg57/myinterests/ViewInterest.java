@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
@@ -23,6 +27,7 @@ public class ViewInterest extends AppCompatActivity {
     private TextView timeCompleted;
     private TextView createdAt;
     private TextView percentageProgress;
+    private TextView totalTime;
     private TextView rept;
     private TextView daysToGo;
     AlertDialog.Builder builder;
@@ -37,6 +42,9 @@ public class ViewInterest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_interest);
+        Toolbar toolbar = findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AppDatabase db = AppDatabase.getInstance(this);
         interestDao = db.interestDao();
         Intent i = getIntent();
@@ -63,10 +71,13 @@ public class ViewInterest extends AppCompatActivity {
                     @Override
                     public void run() {
                         activity = findViewById(R.id.activityDisabled);
+                        totalTime = findViewById(R.id.total_time);
                         activity.setText(thisInterest.interestName);
                         desc.setText(thisInterest.interestDescription);
                         String txtHours = thisInterest.hoursPerWeek + " Hours " + thisInterest.minsPerWeek + " Mins";
                         String completed = thisInterest.hoursCompleted + " Hours " + thisInterest.minsCompleted + " Mins";
+                        String totalHours = ((thisInterest.hoursCompleted*60 + thisInterest.minsCompleted)/60 + " Hours " + (thisInterest.minsCompleted)%60 + " Mins");
+                        totalTime.setText(totalHours);
                         hoursPerWeek.setText(txtHours);
                         timeCompleted.setText(completed);
                         long difference = System.currentTimeMillis() - thisInterest.createdAt;
@@ -104,7 +115,7 @@ public class ViewInterest extends AppCompatActivity {
                         percentageProgress.setText(MessageFormat.format("{0}%", percent));
                         String value;
                         if (percentageProgress2 == 0) {
-                            value = getString(R.string.not_started) + thisInterest.interestName;
+                            value = getString(R.string.not_started) + " " +thisInterest.interestName;
                             rept.setText(value);
                         } else if (percentageProgress2 == 100) {
                             rept.setText(R.string.not_completed);
@@ -156,7 +167,7 @@ public class ViewInterest extends AppCompatActivity {
 
     }
 
-    public void deleteInterest(View v) {
+    private void deleteInterest() {
         builder = new AlertDialog.Builder(this);
 
         //Setting message manually and performing action on button click
@@ -219,4 +230,27 @@ public class ViewInterest extends AppCompatActivity {
             }
         }).start();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.view_interest_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.delete_mi){
+            deleteInterest();
+            return true;
+        }
+        else if(item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
+        else{
+           return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }

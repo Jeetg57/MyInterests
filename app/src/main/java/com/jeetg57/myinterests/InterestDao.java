@@ -14,14 +14,14 @@ import java.util.List;
 @Dao
 public interface InterestDao {
 
-    @Query("SELECT * FROM interest2")
+    @Query("SELECT * FROM interest3")
     List<Interest> getAllInterests();
 
 
-    @Query("SELECT * FROM interest2 WHERE interest_name LIKE :interest")
+    @Query("SELECT * FROM interest3 WHERE interest_name LIKE :interest")
     Interest findByName(String interest);
 
-    @Query("SELECT * FROM interest2 WHERE _id=:id")
+    @Query("SELECT * FROM interest3 WHERE _id=:id")
     Interest findById(int id);
 
     @Insert
@@ -34,7 +34,7 @@ public interface InterestDao {
     void updateInterest(Interest interest);
 
 
-    @Query("SELECT * FROM interest2")
+    @Query("SELECT * FROM interest3")
     Cursor getAllInterestsCursor();
 
 }
